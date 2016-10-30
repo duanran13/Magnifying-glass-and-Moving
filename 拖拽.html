@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>拖动</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        #drag{
+            width:200px;
+            height:200px;
+            background: #ff0000;
+            position: relative;//absolute;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<h1>555555555555</h1>
+<div id="drag"></div>
+</body>
+<script>
+    var oDrag = document.getElementById("drag");
+    (function(){
+        oDrag.onmousedown = function(e){
+            e = e||window.event;
+            var iDisX = e.clientX-oDrag.offsetLeft;
+            var iDisY = e.clientY-oDrag.offsetTop;
+            document.onmousemove = function(e){
+              e = e||window.event;
+                var left = e.clientX-iDisX;
+                var top = e.clientY-iDisY;
+                oDrag.style.left = left+"px";
+                oDrag.style.top = top+"px";
+                return false;
+            };
+            };
+        document.onmouseup = function(){
+                document.onmousemove = null;
+        };
+    })();
+</script>
+</html>
