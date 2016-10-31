@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>滚动条</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        #container{
+            width: 200px;
+            height: 400px;
+            background: #999999;
+            overflow: hidden;
+            position: relative;
+        }
+        #content{
+            width: 180px;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        #scroll-bar{
+            height: 20px;
+            width: 20px;
+            background: #000;
+            cursor: pointer;
+            position: absolute;/*不定位无法使滚动条滚动；*/
+            top: 0;
+            left: 0;
+        }
+        #scroll{
+            position: absolute;
+            right: 0;
+            top: 0;
+            height: 400px;
+            width: 20px;
+            background: #eeeeee;
+        }
+    </style>
+</head>
+<body>
+<div id="container">
+    <div id="content">
+        啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊
+        啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊
+    </div>
+    <div id="scroll">
+        <div id="scroll-bar"></div>
+    </div>
+</div>
+<script>
+    (function(){
+        var oSrollbar = document.getElementById("scroll-bar");
+        var oContainer = document.getElementById("container");
+        var oContent = document.getElementById("content");
+        oSrollbar.onmousedown = function(e){
+            e = e||window.event;
+            var iDixY = e.clientY-oSrollbar.offsetTop;
+            document.onmousemove = function(e){
+                e = e||window.event;
+                var top = e.clientY-iDixY;/*因为只声明鼠标点击滚动条的纵坐标没改变横坐标；*/
+                if(top<0){
+                    top = 0;
+                }
+                var BarMax = oContainer.offsetHeight-oSrollbar.offsetHeight;/*取offsetHeight不能取height*/
+                 if(top>BarMax){
+                    top = BarMax;
+                }
+                oSrollbar.style.top = top+"px";
+                var  BarY = top/BarMax;
+                oContent.style.top = -BarY*(oContent.offsetHeight-oContainer.offsetHeight)+"px";
+                return false;/*防止移动的时候字体选中*/
+            };
+        };
+        document.onmouseup = function(){
+            document.onmousemove = null;
+        };
+    })()
+</script>
+</body>
+</html>
