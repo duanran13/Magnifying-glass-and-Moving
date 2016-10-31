@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>1-拖拽</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        #container{
+            width: 200px;
+            height: 200px;
+            background: #ff0000;
+            position: relative;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div id="container"></div>
+<script>
+    var oContainer = document.getElementById("container");
+    (function(){
+        oContainer.onmousedown = function (e){
+            e = e||window.event;//解决e的兼容性问题；
+            var iDisX= e.clientX-oContainer.offsetLeft;//鼠标距边框的距离；
+            var iDisY = e.clientY-oContainer.offsetTop;
+            document.onmousemove = function(e){
+                e = e||window.event;
+                var left = e.clientX-iDisX;//边框距body的距离；
+                var top = e.clientY-iDisY;
+                oContainer.style.left = left+"px";//求出的距离是数值需要加上单位；
+                oContainer.style.top = top+"px";
+            };
+            };
+        document.onmouseup = function (){
+                document.onmousemove = null;//用oContainer做根鼠标慢移才可以；可以在外面停的时候停；
+        };
+    })()
+</script>
+</body>
+</html>
