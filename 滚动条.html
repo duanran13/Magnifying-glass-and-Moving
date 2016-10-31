@@ -70,7 +70,7 @@
                 }
                 oSrollbar.style.top = top+"px";
                 var  BarY = top/BarMax;
-                oContent.style.top = -BarY*(oContent.offsetHeight-oContainer.offsetHeight)+"px";
+                oContent.style.top = -BarY*(oContent.offsetHeight-oContainer.offsetHeight)+"px";//移动文本的总长减去容器的长就是移动的长
                 return false;/*防止移动的时候字体选中*/
             };
         };
