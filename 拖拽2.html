@@ -8,6 +8,7 @@
             margin: 0;
             padding: 0;
         }
+
         #container {
             width: 200px;
             height: 200px;
@@ -21,33 +22,33 @@
 <div id="container">
 </div>
 <script>
-    (function(){
+    (function () {
         var oContainer = document.getElementById("container");
-        oContainer.onmousedown = function(e){
-            e = e||window.event;
-            var iDisX = e.clientX-oContainer.offsetLeft; //offsetLeft取到最近的已知定位的父元素的最左面的距离，找不到父元素
-            var iDisY = e.clientY-oContainer.offsetTop;//找body，初始的offsetLeft为0，最原始鼠标的坐标相对图片的位置是不变的，
-            document.onmousemove = function(e){
-                e = e||window.event;
-                var left = e.clientX-iDisX;//求图片相对于body的距离
-                var top = e.clientY-iDisY;
-                if(left<0){
+        oContainer.onmousedown = function (e) {
+            e = e || window.event;
+            var iDisX = e.clientX - oContainer.offsetLeft; //offsetLeft取到最近的已知定位的父元素的最左面的距离，找不到父元素
+            var iDisY = e.clientY - oContainer.offsetTop;//找body，初始的offsetLeft为0，最原始鼠标的坐标相对图片的位置是不变的，
+            document.onmousemove = function (e) {
+                e = e || window.event;
+                var left = e.clientX - iDisX;//求图片相对于body的距离
+                var top = e.clientY - iDisY;
+                if (left < 0) {
                     left = 0;
                 }
-                else if(left>document.documentElement.clientWidth-oContainer.offsetWidth){
-                    left = document.documentElement.clientWidth-oContainer.offsetWidth;
+                else if (left > document.documentElement.clientWidth - oContainer.offsetWidth) {
+                    left = document.documentElement.clientWidth - oContainer.offsetWidth;
                 }
-                if(top<0){
+                if (top < 0) {
                     top = 0;
                 }
-                else if(top>document.documentElement.clientHeight-oContainer.offsetHeight){
-                    top = document.documentElement.clientHeight-oContainer.offsetHeight;
+                else if (top > document.documentElement.clientHeight - oContainer.offsetHeight) {
+                    top = document.documentElement.clientHeight - oContainer.offsetHeight;
                 }
-                oContainer.style.left = left+"px";
-                oContainer.style.top = top+"px";
+                oContainer.style.left = left + "px";
+                oContainer.style.top = top + "px";
             }
         };
-        document.onmouseup = function(){
+        document.onmouseup = function () {
             document.onmousemove = null;
         }
     })()
