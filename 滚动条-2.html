@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>滚动条</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        #container {
+            background: #87cefa;
+            width: 120px;
+            height: 400px;
+            position: relative;
+            overflow: hidden;
+            margin: 100px auto;
+
+        }
+
+        #text {
+            width: 100px;
+            position: absolute;
+        }
+
+        #content {
+            background: #b0e0e6;
+            width: 20px;
+            height: 400px;
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+
+        #scoll-bar {
+            width: 20px;
+            height: 20px;
+            background: #4169ee;
+            cursor: pointer;
+            position: absolute;
+        }
+    </style>
+</head>
+<body>
+<div id="container">
+    <div id="text">
+        啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊
+        啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊
+        啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊
+    </div>
+    <div id="content">
+        <div id="scoll-bar">
+        </div>
+    </div>
+</div>
+<script>
+
+    (function () {
+        var oScollBar = document.getElementById("scoll-bar");
+        var oContent = document.getElementById("content");
+        var oText = document.getElementById("text");
+        var oContainer = document.getElementById("container");4
+        oScollBar.onmousedown = function (e) {
+            e = e || window.event;
+            var iDisY = e.clientY - oScollBar.offsetTop;
+            document.onmousemove = function (e) {
+                e = e || window.event;
+                var top = e.clientY - iDisY;
+                if (top < 0) {
+                    top = 0;
+                }
+                if (top > oContent.offsetHeight - oScollBar.offsetHeight) {
+                    top = oContent.offsetHeight - oScollBar.offsetHeight;
+                }
+                var iTop = oScollBar.offsetTop / (oContent.offsetHeight - oScollBar.offsetHeight);//offsetTop按钮走动的距离
+                //var iTop = top / (oContent.offsetHeight - oScollBar.offsetHeight);
+                var aTop = iTop * (oText.offsetHeight - oContainer.offsetHeight);
+                oScollBar.style.top = top + "px";
+                oText.style.top = -aTop + "px";
+                return false;//取消默认行为；
+            };
+        };
+        document.onmouseup = function () {
+            document.onmousemove = null;
+        };
+    })()
+</script>
+</body>
+</html>
