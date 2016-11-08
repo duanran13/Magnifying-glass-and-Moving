@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>放大镜</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        #drag {
+            width: 100px;
+            height: 100px;
+            background: #999999;
+            opacity: 0.3;
+            filter: alpha(opacity=50);
+            position: absolute;
+            left: 0;
+            top: 0;
+            display: none;
+        }
+
+        #small-pic {
+            width: 200px;
+            height: 200px;
+            position: relative;
+            float: left;
+        }
+
+        #big-pic {
+            width: 200px;
+            height: 200px;
+            overflow: hidden;
+            float: left;
+            display: none;
+        }
+
+        #big-box {
+            width: 400px;
+            height: 400px;
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+<div id="container">
+    <div id="small-pic">
+        <img src="practice/1.jpg"/>
+        <div id="drag"></div>
+    </div>
+    <div id="big-pic">
+        <img id="big-box" src="practice/1.jpg">
+    </div>
+</div>
+<script>
+    window.onload = function(){
+    var oSmallpic = document.getElementById("small-pic"),
+            oDrag = document.getElementById("drag"),
+            oBigpic = document.getElementById("big-pic"),
+            aBigImg = oBigpic.getElementsByTagName("img");
+    oSmallpic.onmouseover = function () {
+        oDrag.style.display = "block";
+        oBigpic.style.display = "block";
+    };
+    oSmallpic.onmousemove = function (e) {
+        e = e || window.event;
+        var iDisX = e.clientX - oDrag.offsetWidth / 2;
+        var iDisY = e.clientY - oDrag.offsetHeight / 2;
+        if (iDisX < 0) {
+            iDisX = 0;
+        }
+        else if (iDisX > oSmallpic.offsetWidth - oDrag.offsetWidth) {
+            iDisX = oSmallpic.offsetWidth - oDrag.offsetWidth;
+        }
+        if (iDisY < 0) {
+            iDisY = 0;
+        }
+        else if (iDisY > oSmallpic.offsetHeight - oDrag.offsetHeight) {
+            iDisY = oSmallpic.offsetHeight - oDrag.offsetHeight;
+        }
+        oDrag.style.left = iDisX + "px";
+        oDrag.style.top = iDisY + "px";
+        var scanX = iDisX / (oSmallpic.offsetWidth - oDrag.offsetWidth);
+        var iLeft = scanX * (aBigImg.offsetWidth - oBigpic.offsetWidth);
+        var scanY = iDisY / (oSmallpic.offsetHeight - oDrag.offsetHeight);
+        var iTop = scanY * (aBigImg.offsetHeight - oBigpic.offsetHeight);
+        console.log(aBigImg.offsetHeight);
+        console.log();
+        oBigpic.style.left = -iLeft + "px";
+        oBigpic.style.top = -iTop + "px";
+    };
+    oSmallpic.onmouseout = function () {
+        oDrag.style.display = "none";
+        oBigpic.style.display = "none";
+    };
+    }
+</script>
+</body>
+</html>
