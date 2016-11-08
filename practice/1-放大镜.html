@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>放大镜</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        #small-pic{
+            width: 400px;
+            height: 400px;
+            position: relative;
+            float: left;//为了让大图和小图在一个水平面上
+        }
+        #drag{
+            width: 200px;
+            height: 200px;
+            background: #999999;
+            opacity: 0.5;
+            position: absolute;
+            filter: alpha(opacity = 50);//兼容性问题；
+            top: 0;
+            left: 0;
+            display: none;
+        }
+        #big-pic{
+            width: 400px;
+            height: 400px;
+            float: left;
+            overflow: hidden;
+            display: none;
+        }
+        #big-img{
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+<div id = "container">
+    <div id = "small-pic">
+        <img src="../3.jpg"/>
+        <div id="drag"></div>
+    </div>
+    <div id = "big-pic">
+        <img id="big-img" src="../2.jpg">
+    </div>
+</div>
+<script>
+    (function () {
+        var oSmallPic = document.getElementById("small-pic");
+        var oDrag = document.getElementById("drag");
+        var oBigPic= document.getElementById("big-pic");
+        var oBigImg = document.getElementById("big-img");
+        oSmallPic.onmouseover = function() {
+            oDrag.style.display = "block";//鼠标划入的时候是让drag和大图显示；
+            oBigPic.style.display = "block";
+        document.onmousemove = function(e){
+            e = e||window.event;
+            var iLeft = e.clientX-oDrag.offsetWidth/2;//让鼠标一直在虚框的中心
+            var iTop = e.clientY-oDrag.offsetHeight/2;//因为鼠标的位置已经确定了就不需要再去求鼠标的位置；
+            var iDisX = oSmallPic.offsetWidth-oDrag.offsetWidth;
+            var iDixY = oSmallPic.offsetHeight-oDrag.offsetHeight;
+            if(iLeft<0){
+                iLeft = 0;
+            }
+            else if(iLeft>iDisX){
+                iLeft = iDisX;
+            }
+            if(iTop<0){
+                iTop = 0;
+            }
+            else if(iTop>iDixY){
+                iTop = iDixY;
+            }
+            var aLeft =  iLeft/iDisX;
+            var left = aLeft*(oBigImg.offsetWidth-oBigPic.offsetWidth);
+            var aTop = iTop/iDixY;
+            var top = aTop*(oBigImg.offsetHeight-oBigPic.offsetHeight);
+            oDrag.style.left = iLeft+"px";
+            oDrag.style.top = iTop+"px";
+            oBigImg.style.left = -left+"px";//drag 移动的方向和图片移动的方向是相反的；
+            oBigImg.style.top = -top+"px";//求谁的left top就是谁的.style;
+        };
+        };
+        document.onmouseout = function(){
+            oDrag.style.display = "none";//鼠标划出的时候是让drag和大图隐藏；
+            oBigPic.style.display = "none";
+        };
+    })()
+</script>
+</body>
+</html>
