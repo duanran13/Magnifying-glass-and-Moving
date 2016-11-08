@@ -58,7 +58,7 @@
     var oSmallpic = document.getElementById("small-pic"),
             oDrag = document.getElementById("drag"),
             oBigpic = document.getElementById("big-pic"),
-            aBigImg = oBigpic.getElementsByTagName("img");
+            oBigbox = document.getElementById("big-box");
     oSmallpic.onmouseover = function () {
         oDrag.style.display = "block";
         oBigpic.style.display = "block";
@@ -82,13 +82,11 @@
         oDrag.style.left = iDisX + "px";
         oDrag.style.top = iDisY + "px";
         var scanX = iDisX / (oSmallpic.offsetWidth - oDrag.offsetWidth);
-        var iLeft = scanX * (aBigImg.offsetWidth - oBigpic.offsetWidth);
+        var iLeft = scanX * (oBigbox.offsetWidth - oBigpic.offsetWidth);
         var scanY = iDisY / (oSmallpic.offsetHeight - oDrag.offsetHeight);
-        var iTop = scanY * (aBigImg.offsetHeight - oBigpic.offsetHeight);
-        console.log(aBigImg.offsetHeight);
-        console.log();
-        oBigpic.style.left = -iLeft + "px";
-        oBigpic.style.top = -iTop + "px";
+        var iTop = scanY * (oBigbox.offsetHeight - oBigpic.offsetHeight);
+        oBigbox.style.left = -iLeft + "px";
+        oBigbox.style.top = -iTop + "px";
     };
     oSmallpic.onmouseout = function () {
         oDrag.style.display = "none";
