@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        a {
+            text-decoration: none;
+            color: #000;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        img {
+            width: 200px;
+            height: 200px;
+        }
+
+        #container {
+            position: relative;
+            top: 0;
+            left: auto;
+        }
+
+        #container .content {
+            background: #afeeee;
+            width: 100px;
+            margin-right: 5px;
+            float: left;
+            text-align: center;
+        }
+
+        #container .content a {
+            display: block;
+            height: 20px;
+            width: 100px;
+        }
+
+        #container .selected {
+            background: #ffefd5;
+            display: none;
+
+        }
+
+        #container .selected li {
+            border-bottom: 1px solid;
+        }
+
+        .content a:hover {
+            color: #afeeee;
+            background: #ffff00;
+        }
+
+        #pic-box {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 200px;
+            overflow: hidden;
+        }
+
+        #num {
+            position: absolute;
+            right: 5px;
+            bottom: 5px;
+            cursor: pointer;
+            z-index: 7;
+        }
+
+        #arrow {
+            position: absolute;
+            left: 5px;
+            bottom: 5px;
+            cursor: pointer;
+            z-index: 7;
+        }
+
+        #arrow span {
+            color: #fff;
+            margin-right: 5px;
+            background: #000;
+            width: 20px;
+            height: 20px;
+            text-align: center;
+            line-height: 20px;
+            display: block;
+            float: left;
+
+        }
+
+        #num .tab {
+            background: #ff0000;
+        }
+
+        #num li {
+            background: #000;
+            color: #fff;
+            margin-right: 5px;
+            width: 20px;
+            height: 20px;
+            float: left; /*为了让数字横过来*/
+            line-height: 20px;
+            text-align: center;
+        }
+
+        #pic img {
+            position: absolute;
+        }
+
+        #pic .tab {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+<ul id="container">
+    <li class="content">
+        <a href="#">首页</a>
+        <ul class="selected">
+            <li>
+                <a href="#">概要</a>
+            </li>
+            <li>
+                <a href="#">历史</a>
+            </li>
+            <li>
+                <a href="#">相关负责人</a>
+            </li>
+        </ul>
+    <li class="content">
+        <a href="#">新闻</a>
+        <ul class="selected">
+            <li>
+                <a href="#">重要通知</a>
+            </li>
+            <li>
+                <a href="#">奖惩通知</a>
+            </li>
+            <li>
+                <a href="#">公司新闻</a>
+            </li>
+        </ul>
+    <li class="content">
+        <a href="#">部门</a>
+        <ul class="selected">
+            <li>
+                <a href="#">秘书部</a>
+            </li>
+            <li>
+                <a href="#">纪检部</a>
+            </li>
+            <li>
+                <a href="#">公安部</a>
+            </li>
+            <li>
+                <a href="#">人事部</a>
+            </li>
+            <li>
+                <a href="#">技术部</a>
+            </li>
+        </ul>
+    </li>
+</ul>
+<div id="pic-box">
+    <ul id="num">
+        <li class="tab">1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+        <li>5</li>
+    </ul>
+    <div id="arrow">
+        <span id="prev">&lt;</span>
+        <span id="next">&gt;</span>
+    </div>
+    <div id="pic">
+        <img class="tab" src="1.jpg" alt="图片"/>
+        <img src="../02.jpg" alt="图片"/>
+        <img src="01.jpg" alt="图片"/>
+        <img src="../04.jpg" alt="图片"/>
+        <img src="../05.jpeg" alt="图片"/>
+    </div>
+</div>
+<script src="jslib.js"></script>
+<script>
+    var oContainer = document.getElementById("container");
+    var aLi = oContainer.getElementsByTagName("li");
+    for (var i = 0; i < aLi.length; i++) {
+        if (aLi[i].className == "content") {
+            aLi[i].onmouseover = function () {
+                var oUl = this.getElementsByTagName("ul")[0];
+                oUl.style.display = "block";
+            };
+            aLi[i].onmouseout = function () {
+                var oUl = this.getElementsByTagName("ul")[0];
+                oUl.style.display = "none";
+            };
+        }
+    }
+</script>
+<script>
+    window.onload = function () {
+        var oNum = document.getElementById("num");
+        var aLi = oNum.getElementsByTagName("li");
+        var oPic = document.getElementById("pic");
+        var aImg = oPic.getElementsByTagName("img");
+        var oArrow = document.getElementById("arrow");
+        var oPrev = document.getElementById("prev");
+        var oNext = document.getElementById("next");
+        var oPicBox = document.getElementById("pic-box");
+        var iNow = 0;
+        var zIndex = aImg.length;//当前显示图片的z-index值；
+        for (var i = 0; i < aImg.length; i++) {
+            aImg[i].style.zIndex = aImg.length - i;
+        }
+
+           for (var i = 0; i < aLi.length; i++) {
+            aLi[i].index = i;
+            aLi[i].onmouseover = function () {
+               changeImg(this.index);
+            }
+        }
+        function changeImg(index){
+            for (var i = 0; i < aLi.length; i++) {
+                aLi[i].className = "";
+            }
+            aLi[index].className = "tab";
+            var oImg = aImg[index];
+            oImg.style.zIndex = ++zIndex;
+            oNum.style.zIndex = zIndex+2;
+            oArrow.style.zIndex = zIndex+1;
+            oImg.style.opacity =0;
+            oImg.style.filter = "alpha(opacity = 0)";
+            animate(oImg,{opacity: 100});
+        }
+        oNext.onclick = function(){
+            iNow++;
+            iNow = iNow%5;
+            changeImg(iNow);
+        };
+        oPrev.onclick = function(){
+            iNow--;
+            if(iNow == -1){
+                iNow = aImg.length-1;
+            }
+            changeImg(iNow);
+        };
+        timer = setInterval(function(){
+            oNext.onclick();
+        },1500)
+        oPicBox.onmouseover = function(){
+            clearInterval(timer);
+        };
+        oPicBox.onmouseout = function(){
+            timer = setInterval(function(){
+                oNext.onclick();
+            },1500)
+        };
+    };
+</script>
+</body>
+</html>
+<!--先找到container下的li,让这个li是classname为content的li,给这个li绑定鼠标划入划出事件，让li下的ul显示出来-->
+<!--让img 的zindex值越大越会显示出来，timer是计时器-->
