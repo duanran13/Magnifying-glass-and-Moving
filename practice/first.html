@@ -62,7 +62,7 @@
             position: relative;
             width: 200px;
             height: 200px;
-            margin: 200px;
+            margin:0 50px 50px 200px;
             overflow: hidden;
         }
 
@@ -79,7 +79,7 @@
             left: 5px;
             bottom: 5px;
             cursor: pointer;
-            z-index: 7;
+            z-index: 6;
         }
 
         #arrow span {
@@ -92,7 +92,6 @@
             line-height: 20px;
             display: block;
             float: left;
-
         }
 
         #num .tab {
@@ -116,6 +115,43 @@
 
         #pic .tab {
             display: block;
+        }
+        #til-box{
+            width: 200px;
+            height: 200px;
+            margin-left: 200px;
+        }
+        #til{
+            height: 20px;
+        }
+
+        #til li{
+            width: 50px;
+            height: 20px;
+            float: left;
+            margin-right: 5px;
+            text-align: center;
+            line-height: 20px;
+            background: #808080;
+            cursor: pointer;
+        }
+        #til .text-sele{
+            display: block;
+        }
+        #text{
+            background: #999999;
+            width: 200px;
+            height: 180px;
+            position: relative;
+        }
+        #text div{
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: #999999;
+        }
+        #til li:hover{
+            background: #a9a9a9;
         }
     </style>
 </head>
@@ -188,6 +224,30 @@
         <img src="../05.jpeg" alt="图片"/>
     </div>
 </div>
+<div id="til-box">
+    <ul id="til">
+        <li class="text-sele">
+            新闻
+        </li>
+        <li>
+            风貌
+        </li>
+        <li>
+            人物
+        </li>
+    </ul>
+    <div id="text">
+        <div>
+            1111111
+        </div>
+        <div>
+            2222222
+        </div>
+        <div>
+            3333333
+        </div>
+    </div>
+</div>
 <script src="jslib.js"></script>
 <script>
     var oContainer = document.getElementById("container");
@@ -216,6 +276,7 @@
         var oNext = document.getElementById("next");
         var oPicBox = document.getElementById("pic-box");
         var iNow = 0;
+        var timer;
         var zIndex = aImg.length;//当前显示图片的z-index值；
         for (var i = 0; i < aImg.length; i++) {
             aImg[i].style.zIndex = aImg.length - i;
@@ -234,7 +295,7 @@
             aLi[index].className = "tab";
             var oImg = aImg[index];
             oImg.style.zIndex = ++zIndex;
-            oNum.style.zIndex = zIndex+2;
+            oNum.style.zIndex = zIndex+1;
             oArrow.style.zIndex = zIndex+1;
             oImg.style.opacity =0;
             oImg.style.filter = "alpha(opacity = 0)";
@@ -254,7 +315,7 @@
         };
         timer = setInterval(function(){
             oNext.onclick();
-        },1500)
+        },1500);
         oPicBox.onmouseover = function(){
             clearInterval(timer);
         };
@@ -265,7 +326,35 @@
         };
     };
 </script>
+<script>
+    var oTil = document.getElementById("til");
+    var aLi = oTil.getElementsByTagName("li");
+    var oText = document.getElementById("text");
+    var aDiv = oText.getElementsByTagName("div");
+    var zIndex = 3;
+    for(var i = 0;i<aDiv.length;i++){
+        aDiv[i].style.zIndex = aDiv.length-i;
+    }
+    for(var i = 0;i<aLi.length;i++){
+        aLi[i].index = i;
+            aLi[i].onclick = function(){
+                for(var i = 0;i<aLi.length;i++){
+                    aLi[i].className = "";
+//                    aDiv[i].className = "";
+                }
+                this.className = "text-sele";
+//                aDiv[this.index].className = "text-sele";
+                var oDiv = aDiv[this.index];
+                oDiv.style.opacity = 0;
+                oDiv.style.filter = "alpha(opacity = 0)";
+                oDiv.style.zIndex = ++zIndex;
+                animate(oDiv,{opacity:100 });
+            };
+    }
+</script>
 </body>
 </html>
 <!--先找到container下的li,让这个li是classname为content的li,给这个li绑定鼠标划入划出事件，让li下的ul显示出来-->
 <!--让img 的zindex值越大越会显示出来，timer是计时器-->
+<!--让li和div选中，产生索引关系，一个li对应一个div,给div定位是为了让div重叠，通过定位给div中的内容-重叠在一起，然后根据zindex
+值让他越大越能显示出来->
