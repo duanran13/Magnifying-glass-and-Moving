@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>放大镜</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        #s-img{
+            position: relative;
+            width: 400px;
+            height: 400px;
+            float: left;
+            /*为了让大图和小图在一个水平面上*/
+        }
+        #drag{
+            width: 200px;
+            height: 200px;
+            background: #999999;
+            opacity: 0.5;
+            filter: alpha(opacity = 50);
+            position: absolute;
+            left: 0;
+            top: 0;
+            display: none;
+        }
+        #b-box{
+            width: 400px;
+            height: 400px;
+            overflow: hidden;
+            float: left;
+            display: none;
+        }
+        #b-img{
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+<div id="img-box">
+    <div id="s-img">
+        <img src="../3.jpg"/>
+        <div id="drag"></div>
+    </div>
+    <div id="b-box">
+        <img id="b-img" src="../2.jpg">
+    </div>
+</div>
+<script>
+    var oSImg = document.getElementById("s-img");
+    var oDrag = document.getElementById("drag");
+    var oBBox = document.getElementById("b-box");
+    var oBImg = document.getElementById("b-img");
+    oSImg.onmouseover = function(){
+        oDrag.style.display = "block";
+        oBBox.style.display = "block";
+    };
+    oSImg.onmousemove = function(e){
+        e = e||window.event;
+        var iLeft = e.clientX-oDrag.offsetWidth/2;
+        var iTop = e.clientY-oDrag.offsetHeight/2;
+        if(iLeft<0){
+            iLeft = 0;
+        }
+        else if(iLeft>oSImg.offsetWidth-oDrag.offsetWidth){
+            iLeft = oSImg.offsetWidth-oDrag.offsetWidth;
+        }
+        if(iTop<0){
+            iTop = 0;
+        }
+        else if(iTop>oSImg.offsetHeight-oDrag.offsetHeight){
+            iTop = oSImg.offsetHeight-oDrag.offsetHeight;
+        }
+        var iDisX = iLeft/(oSImg.offsetWidth-oDrag.offsetWidth);
+        var left = iDisX*(oBImg.offsetWidth-oBBox.offsetWidth);
+        var iDisY = iTop/(oSImg.offsetHeight-oDrag.offsetHeight);
+        var top = iDisY*(oBImg.offsetHeight-oBBox.offsetHeight);
+       oBImg.style.top = -top + "px";// 改变图片的宽高，
+        oBImg.style.left = -left + "px";
+        oDrag.style.left = iLeft + "px";
+        oDrag.style.top = iTop + "px";
+    };
+    oSImg.onmouseout = function(){
+        oDrag.style.display = "none";
+        oBBox.style.display = "none";
+    }
+</script>
+</body>
+</html>
