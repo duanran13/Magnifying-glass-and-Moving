@@ -27,6 +27,8 @@
             position: relative;
             top: 0;
             left: auto;
+            margin: 0;
+            overflow: hidden;
         }
 
         #container .content {
@@ -62,7 +64,7 @@
             position: relative;
             width: 200px;
             height: 200px;
-            margin:0 50px 50px 200px;
+            margin: 150px 50px 50px 200px;
             overflow: hidden;
         }
 
@@ -286,6 +288,7 @@
             aLi[i].index = i;
             aLi[i].onmouseover = function () {
                changeImg(this.index);
+                iNow = this.index;
             }
         }
         function changeImg(index){
